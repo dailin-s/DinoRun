@@ -22,9 +22,21 @@ public class DinoBehaviour : MonoBehaviour
         //if (dinoRigidbody == null) {Debub.LogError["yo we're cooked rb dont work :/"];}
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Barrier"))
+        {
+            Debug.Log("Barrier Hit");
+            Time.timeScale = 0f;
+            IS_ALIVE = false;
+        }
+    }
+
+
     public void Jump(InputAction.CallbackContext context)
     {
-        if(context.started && IS_GROUNDED)
+        if(context.started && IS_GROUNDED && IS_ALIVE)
         {
             dinoRigidbody.linearVelocity = new Vector2(dinoRigidbody.linearVelocityX, _jumpHeight);
         }
