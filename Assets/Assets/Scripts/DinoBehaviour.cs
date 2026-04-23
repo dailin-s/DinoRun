@@ -6,14 +6,18 @@ public class DinoBehaviour : MonoBehaviour
     public bool IS_ALIVE = true;
     private bool IS_GROUNDED;
     private Rigidbody2D dinoRigidbody; 
-    private float _jumpHeight = 10f;
+    private float _jumpHeight = 5f;
     private float _rayLength = 1.0f;
     public LayerMask _groundLayer;
+    public AudioClip jumpSound;
+    private AudioSource playerAudio;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
+
         Time.timeScale = 1.0f; 
         IS_ALIVE = true;  
         dinoRigidbody = GetComponent<Rigidbody2D>();
@@ -48,6 +52,10 @@ public class DinoBehaviour : MonoBehaviour
         RaycastHit2D playerRaycast = Physics2D.Raycast(transform.position, Vector2.down, _rayLength, _groundLayer);
         IS_GROUNDED = playerRaycast.collider != null;
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
+        }
 
     }
 }
